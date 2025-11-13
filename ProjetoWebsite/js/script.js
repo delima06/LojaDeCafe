@@ -65,6 +65,13 @@ function createCard(data) {
   description.className = "description-style";
   card.appendChild(description);
 
+  const preco = document.createElement("p");
+  preco.textContent = `Preço: $${data.price.toFixed(2)}`;
+  preco.className = "price-style";
+  card.appendChild(preco);
+
+
+
   // Adiciona a lista de ingredientes
   if (data.ingredients && data.ingredients.length > 0) {
     const ingredientsTitle = document.createElement("h4");
