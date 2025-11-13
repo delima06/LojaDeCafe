@@ -54,3 +54,98 @@
   font-size: 14px;
   margin: 4px 0;
 }
+
+/* Cabeçalho */
+header#site-header {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+/* Nav container (centraliza o conteúdo) */
+header#site-header .container,
+header#site-header .nav-style {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0.65rem 1rem;
+}
+
+/* Título/Link da loja */
+header#site-header a[href="#"], .a1 {
+  font-weight: 700;
+  color: #222;
+  text-decoration: none;
+  font-size: 1.125rem;
+  letter-spacing: 0.2px;
+}
+
+/* Link do carrinho (botão) */
+#cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.02);
+  color: #111;
+  text-decoration: none;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 80ms ease;
+}
+
+#cart-link:hover {
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* Badge do contador do carrinho */
+#cart-count-badge,
+.badge {
+  background: #e53935; /* vermelho */
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-block;
+  line-height: 1;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 576px) {
+  header#site-header .container,
+  header#site-header .nav-style {
+    padding: 0.5rem;
+  }
+  header#site-header a[href="#"],
+  .a1 {
+    font-size: 1rem;
+  }
+  #cart-link {
+    padding: 0.3rem 0.45rem;
+  }
+  #cart-count-badge { min-width: 24px; padding: 3px 6px; font-size: 0.78rem; }
+}
+
+/* Garante que o nav do cabeçalho distribua Home à esquerda e Carrinho à direita */
+header#site-header nav,
+header#site-header .nav-style,
+header#site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Força o link do carrinho à direita se algo na marcação impedir o space-between */
+#cart-link {
+  margin-left: auto;
+}
