@@ -15,10 +15,9 @@ async function fetchData(apiUrl) {
   }
 }
 
-// Endpoint da API local, conforme seu script
+//endpoint da api local criada com json-server
 const apiEndpoint = "http://localhost:3000/coffee";
 
-// Chave para o localStorage
 const CART_KEY = "cart";
 
 // Lê o carrinho do localStorage
@@ -36,9 +35,8 @@ function saveCart(cart) {
   updateCartCount(); // Atualiza o contador sempre que o carrinho é salvo
 }
 
-// Substitui/insere estas funções (corrige addToCart e adiciona checkout minimal)
 
-/* addToCart corrigido */
+//funcao para adicionar itens ao carrinho
 function addToCart(item) {
   try {
     const cart = getCart();
@@ -62,14 +60,14 @@ function addToCart(item) {
   }
 }
 
-/* Botão simples de checkout (aparece somente se houver itens) */
+// Botão de checkout 
 function ensureSimpleCheckoutButton(root, summaryEl) {
   if (document.getElementById("simple-checkout-btn")) return;
   const cart = getCart();
   if (!cart || cart.length === 0) return;
 
   const btn = document.createElement("button");
-  btn.id = "simple-checkout-btn";
+  btn.id = "simple-checkout-button";
   btn.className = "btn btn-success btn-sm";
   btn.textContent = "Finalizar";
   btn.addEventListener("click", initCheckoutPage);
@@ -77,7 +75,7 @@ function ensureSimpleCheckoutButton(root, summaryEl) {
   (summaryEl || root).appendChild(btn);
 }
 
-/* Página de finalização mínima — mostra itens, endereço, forma de pagamento e finaliza */
+//Pagina de finalização de compra simples, com endereco e forma de pagamento
 function initCheckoutPage() {
   clearRoot();
   const root = document.getElementById("root");
@@ -132,7 +130,7 @@ function initCheckoutPage() {
   totalDiv.textContent = `Total: R$ ${Number(total).toFixed(2)}`;
   root.appendChild(totalDiv);
 
-  // Botões: Finalizar e Cancelar
+  // Botão de fnalizar ou cancelar
   const finish = document.createElement("button");
   finish.className = "btn btn-success";
   finish.textContent = "Finalizar";
@@ -141,7 +139,7 @@ function initCheckoutPage() {
       alert("Preencha o endereço e escolha a forma de pagamento.");
       return;
     }
-    alert(`Compra confirmada. Total R$ ${Number(total).toFixed(2)}. Obrigado!`);
+    alert(`Compra confirmada. Total R$ ${Number(total).toFixed(2)}. Obrigado!`); //Quando finalizar, limpa o carrinho
     localStorage.removeItem(CART_KEY);
     updateCartCount();
     if (typeof initmainPage === "function") initmainPage();
@@ -156,9 +154,6 @@ function initCheckoutPage() {
   });
   root.appendChild(cancel);
 }
-
-// Chamada simples: dentro de initComprarPage, depois de renderCart(), adicione:
-//   ensureSimpleCheckoutButton(root, summary);
 
 function updateCartCount() {
   const cart = getCart();
@@ -194,7 +189,7 @@ function createHeader() {
   linkCart.textContent = "Carrinho "; 
   linkCart.href = "#";
 
-  // Este é o contador de itens
+  //contador de itens
   cartCountBadge.id = "cart-count-badge"; 
   cartCountBadge.textContent = "0"; // Valor inicial
 
@@ -218,7 +213,7 @@ function createHeader() {
   document.body.prepend(header); // Adiciona o header no início do body
 }
 
-// Função para criar os cards (seu código original, está ótimo)
+// Função para criar os cards 
 function createCard(data) {
   const root = document.getElementById("root");
   const card = document.createElement("div");
@@ -240,13 +235,13 @@ function createCard(data) {
   description.className = "description-style";
   card.appendChild(description);
 
-  // Adiciona o preço (seu código original)
+  // Adiciona o preço 
   const preco = document.createElement("p");
   preco.textContent = `Preço: R$${data.price.toFixed(2)}`;
-  preco.className = "price-style"; // (Esta classe não está no seu style.css)
+  preco.className = "price-style"; 
   card.appendChild(preco);
 
-  // Adiciona ingredientes (seu código original)
+  // Adiciona ingredientes
   if (data.ingredients && data.ingredients.length > 0) {
     const ingredientsTitle = document.createElement("h4");
     ingredientsTitle.textContent = "Ingredientes:";
@@ -265,10 +260,10 @@ function createCard(data) {
     card.appendChild(ingredientsList);
   }
 
-  // Botão "Adicionar ao carrinho" (seu código original)
+  // Botão "Adicionar ao carrinho" 
   const addButton = document.createElement("button");
   addButton.textContent = "Adicionar ao carrinho";
-  addButton.className = "add-to-cart-button"; // (Esta classe não está no seu style.css)
+  addButton.className = "add-to-cart-button";
   addButton.addEventListener("click", () => {
     addToCart(data);
   });
@@ -276,12 +271,6 @@ function createCard(data) {
   root.appendChild(card);
 }
 
-// --- 4. Funções de Inicialização de Página ---
-
-/**
- * ATUALIZAÇÃO: Esta função estava sendo chamada mas não existia.
- * Limpa a root e renderiza a página inicial (lista de cafés).
- */
 async function initmainPage() {
   clearRoot();
   const root = document.getElementById("root");
@@ -296,7 +285,7 @@ async function initmainPage() {
         return;
     }
     
-    // A chamada para criar os cards agora fica aqui
+    // Cria os cards para cada item
     for (let card of data) {
       createCard(card);
     }
@@ -305,12 +294,6 @@ async function initmainPage() {
     root.textContent = "Erro ao carregar os produtos. Verifique se a API local (json-server) está rodando.";
   }
 }
-
-// ...existing code...
-
-// Substitui a função initComprarPage e initCheckoutPage por versões que adicionam
-// o botão de checkout na própria "página" do carrinho e uma página de finalização
-// simples que valida endereço e forma de pagamento.
 
 function initComprarPage() {
   // Limpa a root e configura a página de carrinho simples
@@ -372,14 +355,14 @@ function initComprarPage() {
   summary.appendChild(itemsCount);
   summary.appendChild(totalDiv);
 
-  // área para botão de finalizar
+  // área para botão de finalizar 
   const actionsRight = document.createElement("div");
   actionsRight.id = "cart-summary-actions";
   summary.appendChild(actionsRight);
 
   root.appendChild(summary);
 
-  // Função que renderiza o carrinho (simples)
+  // Função que renderiza o carrinho 
   function renderCart() {
     const cart = getCart();
     listContainer.innerHTML = "";
@@ -610,14 +593,11 @@ function initCheckoutPage() {
   root.appendChild(btnCancel);
 }
 
-// ...existing code...
-
-// Inicializa UI ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
-  // cria o cabeçalho (se definido)
+  // cria o cabeçalho
   if (typeof createHeader === "function") createHeader();
 
-  // atualiza contador (se definido)
+  // atualiza contador 
   if (typeof updateCartCount === "function") updateCartCount();
 
   // abre a página inicial por padrão
